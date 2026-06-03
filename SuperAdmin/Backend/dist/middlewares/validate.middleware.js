@@ -17,6 +17,7 @@ const validate = (schema) => async (req, res, next) => {
         next();
     }
     catch (error) {
+        console.log("error", error);
         if (error instanceof zod_1.ZodError) {
             const formattedErrors = error.errors.map((err) => ({
                 field: err.path.slice(1).join('.'), // slice(1) removes the root 'body', 'query', or 'params' keys

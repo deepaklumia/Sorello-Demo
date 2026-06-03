@@ -21,6 +21,7 @@ export const Login: React.FC = () => {
 
     try {
       const response = await api.post('/auth/login', { email, password });
+      console.log("response", response);
       login(response.data.token, response.data.user, keepSession);
       navigate('/dashboard');
     } catch (err: any) {
