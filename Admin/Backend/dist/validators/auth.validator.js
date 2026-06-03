@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.changePasswordSchema = exports.loginSchema = void 0;
+const zod_1 = require("zod");
+exports.loginSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        slug: zod_1.z.string().min(2, 'Slug must be at least 2 characters long'),
+        email: zod_1.z.string().email('Invalid email address'),
+        password: zod_1.z.string().min(1, 'Password is required'),
+    }),
+});
+exports.changePasswordSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        currentPassword: zod_1.z.string().min(1, 'Current password is required'),
+        newPassword: zod_1.z.string().min(6, 'New password must be at least 6 characters long'),
+    }),
+});

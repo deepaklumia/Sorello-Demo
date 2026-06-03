@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const hours_controller_1 = require("../controllers/hours.controller");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const validate_middleware_1 = require("../middlewares/validate.middleware");
+const hours_validator_1 = require("../validators/hours.validator");
+const router = (0, express_1.Router)();
+router.use(auth_middleware_1.authenticateRestaurant);
+router.get('/hours', hours_controller_1.HoursController.getHours);
+router.post('/hours', (0, validate_middleware_1.validate)(hours_validator_1.createHoursSchema), hours_controller_1.HoursController.createHours);
+router.put('/hours/:id', (0, validate_middleware_1.validate)(hours_validator_1.updateHoursSchema), hours_controller_1.HoursController.updateHours);
+router.delete('/hours/:id', (0, validate_middleware_1.validate)(hours_validator_1.getHoursByIdSchema), hours_controller_1.HoursController.deleteHours);
+exports.default = router;
