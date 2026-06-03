@@ -46,8 +46,10 @@ model Restaurant {
   updatedAt        DateTime         @updatedAt @map("updated_at")
   deletedAt        DateTime?        @map("deleted_at")
 
+  slug             String           @unique
+  password         String
+
   orders           Order[]
-  users            User[]
 
   @@map("restaurants")
 }
@@ -67,16 +69,13 @@ model Order {
 }
 
 model User {
-  id           String      @id @default(uuid()) @db.Uuid
-  email        String      @unique
-  passwordHash String      @map("password_hash")
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
   name         String
-  role         UserRole    @default(STAFF)
-  restaurantId String?     @db.Uuid @map("restaurant_id")
-  createdAt    DateTime    @default(now()) @map("created_at")
-  updatedAt    DateTime    @updatedAt @map("updated_at")
-
-  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  role         UserRole @default(STAFF)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("users")
 }

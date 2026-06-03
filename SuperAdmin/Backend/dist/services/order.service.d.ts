@@ -16,8 +16,8 @@ export declare class OrderService {
             };
         } & {
             id: string;
-            restaurantId: string;
             createdAt: Date;
+            restaurantId: string;
             customerName: string;
             totalAmount: import("@prisma/client/runtime/library").Decimal;
             orderStatus: import(".prisma/client").$Enums.OrderStatus;
@@ -35,8 +35,8 @@ export declare class OrderService {
         };
     } & {
         id: string;
-        restaurantId: string;
         createdAt: Date;
+        restaurantId: string;
         customerName: string;
         totalAmount: import("@prisma/client/runtime/library").Decimal;
         orderStatus: import(".prisma/client").$Enums.OrderStatus;

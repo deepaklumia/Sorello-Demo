@@ -1,43 +1,72 @@
 import { z } from 'zod';
 export declare const registerSchema: z.ZodObject<{
-    body: z.ZodObject<{
+    body: z.ZodEffects<z.ZodEffects<z.ZodObject<{
         email: z.ZodString;
-        passwordPlain: z.ZodString;
+        password: z.ZodOptional<z.ZodString>;
+        passwordPlain: z.ZodOptional<z.ZodString>;
+        passwordHash: z.ZodOptional<z.ZodString>;
         name: z.ZodString;
         role: z.ZodDefault<z.ZodNativeEnum<{
             SUPER_ADMIN: "SUPER_ADMIN";
             RESTAURANT_ADMIN: "RESTAURANT_ADMIN";
             STAFF: "STAFF";
         }>>;
-        restaurantId: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
         email: string;
         name: string;
         role: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF";
-        passwordPlain: string;
-        restaurantId?: string | undefined;
+        passwordHash?: string | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
     }, {
         email: string;
         name: string;
-        passwordPlain: string;
+        passwordHash?: string | undefined;
         role?: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF" | undefined;
-        restaurantId?: string | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
+    }>, {
+        email: string;
+        name: string;
+        role: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF";
+        passwordHash?: string | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
+    }, {
+        email: string;
+        name: string;
+        passwordHash?: string | undefined;
+        role?: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF" | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
+    }>, {
+        email: string;
+        password: string;
+        name: string;
+        role: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF";
+    }, {
+        email: string;
+        name: string;
+        passwordHash?: string | undefined;
+        role?: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF" | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
     }>;
 }, "strip", z.ZodTypeAny, {
     body: {
         email: string;
+        password: string;
         name: string;
         role: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF";
-        passwordPlain: string;
-        restaurantId?: string | undefined;
     };
 }, {
     body: {
         email: string;
         name: string;
-        passwordPlain: string;
+        passwordHash?: string | undefined;
         role?: "SUPER_ADMIN" | "RESTAURANT_ADMIN" | "STAFF" | undefined;
-        restaurantId?: string | undefined;
+        password?: string | undefined;
+        passwordPlain?: string | undefined;
     };
 }>;
 export declare const loginSchema: z.ZodObject<{

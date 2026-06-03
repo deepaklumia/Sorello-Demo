@@ -16,14 +16,13 @@ class AuthService {
             throw api_error_1.ApiError.badRequest('Email is already registered');
         }
         const salt = await bcryptjs_1.default.genSalt(10);
-        const hash = await bcryptjs_1.default.hash(data.passwordPlain, salt);
+        const hash = await bcryptjs_1.default.hash(data.password, salt);
         const user = await database_1.prisma.user.create({
             data: {
                 email: data.email,
                 passwordHash: hash,
                 name: data.name,
                 role: data.role,
-                restaurantId: data.restaurantId || null,
             },
         });
         return {
@@ -31,7 +30,6 @@ class AuthService {
             email: user.email,
             name: user.name,
             role: user.role,
-            restaurantId: user.restaurantId,
         };
     }
     static async login(email, passwordPlain) {
@@ -51,7 +49,6 @@ class AuthService {
                 email: user.email,
                 name: user.name,
                 role: user.role,
-                restaurantId: user.restaurantId,
             },
         };
     }

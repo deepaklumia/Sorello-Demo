@@ -37,17 +37,17 @@ export declare const listOrdersQuerySchema: z.ZodObject<{
             REFUNDED: "REFUNDED";
         }>>;
     }, "strip", z.ZodTypeAny, {
-        restaurantId?: string | undefined;
         page?: string | undefined;
         limit?: string | undefined;
+        restaurantId?: string | undefined;
         orderStatus?: "PENDING" | "ACCEPTED" | "PREPARED" | "COMPLETED" | "DECLINED" | undefined;
         paymentStatus?: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | undefined;
         startDate?: string | undefined;
         endDate?: string | undefined;
     }, {
-        restaurantId?: string | undefined;
         page?: string | undefined;
         limit?: string | undefined;
+        restaurantId?: string | undefined;
         orderStatus?: "PENDING" | "ACCEPTED" | "PREPARED" | "COMPLETED" | "DECLINED" | undefined;
         paymentStatus?: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | undefined;
         startDate?: string | undefined;
@@ -55,9 +55,9 @@ export declare const listOrdersQuerySchema: z.ZodObject<{
     }>;
 }, "strip", z.ZodTypeAny, {
     query: {
-        restaurantId?: string | undefined;
         page?: string | undefined;
         limit?: string | undefined;
+        restaurantId?: string | undefined;
         orderStatus?: "PENDING" | "ACCEPTED" | "PREPARED" | "COMPLETED" | "DECLINED" | undefined;
         paymentStatus?: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | undefined;
         startDate?: string | undefined;
@@ -65,9 +65,9 @@ export declare const listOrdersQuerySchema: z.ZodObject<{
     };
 }, {
     query: {
-        restaurantId?: string | undefined;
         page?: string | undefined;
         limit?: string | undefined;
+        restaurantId?: string | undefined;
         orderStatus?: "PENDING" | "ACCEPTED" | "PREPARED" | "COMPLETED" | "DECLINED" | undefined;
         paymentStatus?: "PENDING" | "PAID" | "FAILED" | "REFUNDED" | undefined;
         startDate?: string | undefined;

@@ -8,10 +8,9 @@ import { UserRole } from '@prisma/client';
 export class AuthService {
   static async register(data: {
     email: string;
-    passwordPlain: string;
+    password: string;
     name: string;
     role: UserRole;
-    restaurantId?: string;
   }) {
     const existing = await prisma.user.findUnique({ where: { email: data.email } });
     if (existing) {
@@ -19,7 +18,7 @@ export class AuthService {
     }
     
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(data.passwordPlain, salt);
+    const hash = await bcrypt.hash(data.password, salt);
     
     const user = await prisma.user.create({
       data: {
@@ -27,7 +26,6 @@ export class AuthService {
         passwordHash: hash,
         name: data.name,
         role: data.role,
-        restaurantId: data.restaurantId || null,
       },
     });
 
@@ -36,7 +34,6 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
-      restaurantId: user.restaurantId,
     };
   }
 
@@ -64,7 +61,6 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
-        restaurantId: user.restaurantId,
       },
     };
   }

@@ -5,7 +5,6 @@ export interface AuthenticatedRequest extends Request {
         id: string;
         email: string;
         role: UserRole;
-        restaurantId: string | null;
     };
 }
 export declare const authenticate: (req: AuthenticatedRequest, res: Response, next: NextFunction) => Promise<void>;

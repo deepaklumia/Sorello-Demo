@@ -132,8 +132,7 @@ The server hosts an interactive Swagger playground at `/api-docs` (e.g. `http://
       "id": "e0e8984d-2a1c-4b77-8051-4095a4fa4316",
       "email": "admin@sasspos.com",
       "name": "Super Admin",
-      "role": "SUPER_ADMIN",
-      "restaurantId": null
+      "role": "SUPER_ADMIN"
     }
   }
   ```
@@ -159,8 +158,7 @@ The server hosts an interactive Swagger playground at `/api-docs` (e.g. `http://
         "id": "e0e8984d-2a1c-4b77-8051-4095a4fa4316",
         "email": "admin@sasspos.com",
         "name": "Super Admin",
-        "role": "SUPER_ADMIN",
-        "restaurantId": null
+        "role": "SUPER_ADMIN"
       }
     }
   }

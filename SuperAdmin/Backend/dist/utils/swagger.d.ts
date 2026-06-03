@@ -165,11 +165,6 @@ export declare const swaggerDocument: {
                         type: string;
                         enum: string[];
                     };
-                    restaurantId: {
-                        type: string;
-                        format: string;
-                        nullable: boolean;
-                    };
                 };
             };
         };
@@ -202,10 +197,6 @@ export declare const swaggerDocument: {
                                         type: string;
                                         enum: string[];
                                         default: string;
-                                    };
-                                    restaurantId: {
-                                        type: string;
-                                        format: string;
                                     };
                                 };
                             };

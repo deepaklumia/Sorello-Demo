@@ -11,6 +11,11 @@ async function main() {
   await prisma.order.deleteMany({});
   await prisma.restaurant.deleteMany({});
 
+  const salt = await bcrypt.genSalt(10);
+  const restPasswordHash1 = await bcrypt.hash('burger123', salt);
+  const restPasswordHash2 = await bcrypt.hash('sushi123', salt);
+  const restPasswordHash3 = await bcrypt.hash('pizza123', salt);
+
   // 1. Create Restaurants
   const r1 = await prisma.restaurant.create({
     data: {
@@ -20,6 +25,8 @@ async function main() {
       address: '101 Burger Ave, Food City',
       status: RestaurantStatus.ACTIVE,
       subscriptionPlan: 'premium',
+      slug: 'burger-palace',
+      password: restPasswordHash1,
     },
   });
 
@@ -31,6 +38,8 @@ async function main() {
       address: '202 Sakura Lane, Kyoto',
       status: RestaurantStatus.ACTIVE,
       subscriptionPlan: 'enterprise',
+      slug: 'sushi-zen',
+      password: restPasswordHash2,
     },
   });
 
@@ -42,13 +51,14 @@ async function main() {
       address: '303 Napoli St, Rome',
       status: RestaurantStatus.SUSPENDED,
       subscriptionPlan: 'basic',
+      slug: 'pizzeria-bella',
+      password: restPasswordHash3,
     },
   });
 
   console.log('✅ Restaurants seeded');
 
   // 2. Create Users (Super Admin, Restaurant Admin)
-  const salt = await bcrypt.genSalt(10);
   const adminPasswordHash = await bcrypt.hash('admin123', salt);
   const staffPasswordHash = await bcrypt.hash('staff123', salt);
 
@@ -67,7 +77,6 @@ async function main() {
       email: 'manager@burgerpalace.com',
       passwordHash: staffPasswordHash,
       role: UserRole.RESTAURANT_ADMIN,
-      restaurantId: r1.id,
     },
   });
 

@@ -11,6 +11,10 @@ exports.createRestaurantSchema = zod_1.z.object({
         address: zod_1.z.string().min(5, 'Address must be at least 5 characters long'),
         status: zod_1.z.nativeEnum(client_1.RestaurantStatus).optional(),
         subscriptionPlan: zod_1.z.string().min(1, 'Subscription plan is required'),
+        slug: zod_1.z.string().min(2, 'Slug must be at least 2 characters long')
+            .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and dashes')
+            .optional(),
+        password: zod_1.z.string().min(6, 'Password must be at least 6 characters long').optional(),
     }),
 });
 exports.updateRestaurantSchema = zod_1.z.object({

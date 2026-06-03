@@ -11,6 +11,8 @@ export declare const createRestaurantSchema: z.ZodObject<{
             SUSPENDED: "SUSPENDED";
         }>>;
         subscriptionPlan: z.ZodString;
+        slug: z.ZodOptional<z.ZodString>;
+        password: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
         email: string;
         name: string;
@@ -18,6 +20,8 @@ export declare const createRestaurantSchema: z.ZodObject<{
         address: string;
         subscriptionPlan: string;
         status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | undefined;
+        password?: string | undefined;
+        slug?: string | undefined;
     }, {
         email: string;
         name: string;
@@ -25,6 +29,8 @@ export declare const createRestaurantSchema: z.ZodObject<{
         address: string;
         subscriptionPlan: string;
         status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | undefined;
+        password?: string | undefined;
+        slug?: string | undefined;
     }>;
 }, "strip", z.ZodTypeAny, {
     body: {
@@ -34,6 +40,8 @@ export declare const createRestaurantSchema: z.ZodObject<{
         address: string;
         subscriptionPlan: string;
         status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | undefined;
+        password?: string | undefined;
+        slug?: string | undefined;
     };
 }, {
     body: {
@@ -43,6 +51,8 @@ export declare const createRestaurantSchema: z.ZodObject<{
         address: string;
         subscriptionPlan: string;
         status?: "ACTIVE" | "INACTIVE" | "SUSPENDED" | undefined;
+        password?: string | undefined;
+        slug?: string | undefined;
     };
 }>;
 export declare const updateRestaurantSchema: z.ZodObject<{

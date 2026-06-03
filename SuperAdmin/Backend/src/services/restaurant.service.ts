@@ -2,6 +2,7 @@ import { prisma } from '../config/database';
 import { ApiError } from '../utils/api-error';
 import { RestaurantStatus } from '@prisma/client';
 import { getPaginationMeta, getPaginationOptions } from '../utils/pagination';
+import bcrypt from 'bcryptjs';
 
 export class RestaurantService {
   static async getAll(params: {
@@ -26,7 +27,6 @@ export class RestaurantService {
     if (params.status) {
       where.status = params.status;
     }
-
     const [restaurants, totalCount] = await Promise.all([
       prisma.restaurant.findMany({
         where,
@@ -39,7 +39,12 @@ export class RestaurantService {
 
     const meta = getPaginationMeta(page, limit, totalCount);
 
-    return { restaurants, meta };
+    const safeRestaurants = restaurants.map((r) => {
+      const { password, ...rest } = r;
+      return rest;
+    });
+
+    return { restaurants: safeRestaurants, meta };
   }
 
   static async getById(id: string) {
@@ -51,7 +56,8 @@ export class RestaurantService {
       throw ApiError.notFound('Restaurant not found');
     }
 
-    return restaurant;
+    const { password, ...rest } = restaurant;
+    return rest;
   }
 
   static async create(data: {
@@ -61,6 +67,8 @@ export class RestaurantService {
     address: string;
     status?: RestaurantStatus;
     subscriptionPlan: string;
+    slug?: string;
+    password?: string;
   }) {
     const existing = await prisma.restaurant.findUnique({
       where: { email: data.email },
@@ -69,7 +77,47 @@ export class RestaurantService {
       throw ApiError.badRequest('Restaurant email is already in use');
     }
 
-    return prisma.restaurant.create({
+    // Slug generation
+    const slugify = (text: string) => {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    };
+
+    let slug = data.slug ? slugify(data.slug) : slugify(data.name);
+    if (!slug) {
+      slug = 'restaurant';
+    }
+
+    if (data.slug) {
+      const existingSlug = await prisma.restaurant.findUnique({
+        where: { slug },
+      });
+      if (existingSlug) {
+        throw ApiError.badRequest('Provided slug is already in use');
+      }
+    } else {
+      let existingSlug = await prisma.restaurant.findUnique({
+        where: { slug },
+      });
+      let counter = 1;
+      const baseSlug = slug;
+      while (existingSlug) {
+        slug = `${baseSlug}-${counter}`;
+        existingSlug = await prisma.restaurant.findUnique({
+          where: { slug },
+        });
+        counter++;
+      }
+    }
+
+    // Password generation
+    const tempPassword = data.password || `temp_${Math.random().toString(36).substring(2, 10)}`;
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(tempPassword, salt);
+
+    const restaurant = await prisma.restaurant.create({
       data: {
         name: data.name,
         email: data.email,
@@ -77,8 +125,17 @@ export class RestaurantService {
         address: data.address,
         status: data.status || RestaurantStatus.ACTIVE,
         subscriptionPlan: data.subscriptionPlan,
+        slug,
+        password: passwordHash,
       },
     });
+
+    const { password, ...rest } = restaurant;
+
+    return {
+      ...rest,
+      tempPassword,
+    };
   }
 
   static async update(
@@ -102,27 +159,36 @@ export class RestaurantService {
       }
     }
 
-    return prisma.restaurant.update({
+    const updated = await prisma.restaurant.update({
       where: { id },
       data,
     });
+
+    const { password, ...rest } = updated;
+    return rest;
   }
 
   static async updateStatus(id: string, status: RestaurantStatus) {
     await this.getById(id);
 
-    return prisma.restaurant.update({
+    const updated = await prisma.restaurant.update({
       where: { id },
       data: { status },
     });
+
+    const { password, ...rest } = updated;
+    return rest;
   }
 
   static async softDelete(id: string) {
     await this.getById(id);
 
-    return prisma.restaurant.update({
+    const updated = await prisma.restaurant.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    const { password, ...rest } = updated;
+    return rest;
   }
 }

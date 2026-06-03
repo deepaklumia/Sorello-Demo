@@ -17,6 +17,7 @@ export declare class RestaurantService {
             address: string;
             subscriptionPlan: string;
             deletedAt: Date | null;
+            slug: string;
         }[];
         meta: import("../utils/pagination").PaginationMeta;
     }>;
@@ -31,6 +32,7 @@ export declare class RestaurantService {
         address: string;
         subscriptionPlan: string;
         deletedAt: Date | null;
+        slug: string;
     }>;
     static create(data: {
         name: string;
@@ -39,7 +41,10 @@ export declare class RestaurantService {
         address: string;
         status?: RestaurantStatus;
         subscriptionPlan: string;
+        slug?: string;
+        password?: string;
     }): Promise<{
+        tempPassword: string;
         status: import(".prisma/client").$Enums.RestaurantStatus;
         id: string;
         email: string;
@@ -50,6 +55,7 @@ export declare class RestaurantService {
         address: string;
         subscriptionPlan: string;
         deletedAt: Date | null;
+        slug: string;
     }>;
     static update(id: string, data: {
         name?: string;
@@ -68,6 +74,7 @@ export declare class RestaurantService {
         address: string;
         subscriptionPlan: string;
         deletedAt: Date | null;
+        slug: string;
     }>;
     static updateStatus(id: string, status: RestaurantStatus): Promise<{
         status: import(".prisma/client").$Enums.RestaurantStatus;
@@ -80,6 +87,7 @@ export declare class RestaurantService {
         address: string;
         subscriptionPlan: string;
         deletedAt: Date | null;
+        slug: string;
     }>;
     static softDelete(id: string): Promise<{
         status: import(".prisma/client").$Enums.RestaurantStatus;
@@ -92,5 +100,6 @@ export declare class RestaurantService {
         address: string;
         subscriptionPlan: string;
         deletedAt: Date | null;
+        slug: string;
     }>;
 }

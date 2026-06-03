@@ -35,7 +35,6 @@ const authenticate = async (req, res, next) => {
                 id: true,
                 email: true,
                 role: true,
-                restaurantId: true,
             },
         });
         if (!user) {

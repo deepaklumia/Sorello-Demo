@@ -10,7 +10,6 @@ export interface AuthenticatedRequest extends Request {
     id: string;
     email: string;
     role: UserRole;
-    restaurantId: string | null;
   };
 }
 
@@ -48,7 +47,6 @@ export const authenticate = async (
         id: true,
         email: true,
         role: true,
-        restaurantId: true,
       },
     });
 

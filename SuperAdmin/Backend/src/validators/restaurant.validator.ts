@@ -9,6 +9,10 @@ export const createRestaurantSchema = z.object({
     address: z.string().min(5, 'Address must be at least 5 characters long'),
     status: z.nativeEnum(RestaurantStatus).optional(),
     subscriptionPlan: z.string().min(1, 'Subscription plan is required'),
+    slug: z.string().min(2, 'Slug must be at least 2 characters long')
+      .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and dashes')
+      .optional(),
+    password: z.string().min(6, 'Password must be at least 6 characters long').optional(),
   }),
 });
 
