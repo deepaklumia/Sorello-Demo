@@ -17,4 +17,23 @@ export const getOrderByIdSchema = z.object({
     id: z.string().uuid('Invalid order ID'),
   }),
 });
+
+export const createOrderSchema = z.object({
+  body: z.object({
+    customerName: z.string().min(1, 'Customer name is required'),
+    cartId: z.string().uuid('Invalid cart ID'),
+  }),
+});
+
+export const updateOrderSchema = z.object({
+  params: z.object({
+    id: z.string().uuid('Invalid order ID'),
+  }),
+  body: z.object({
+    orderStatus: z.nativeEnum(OrderStatus).optional(),
+    paymentStatus: z.nativeEnum(PaymentStatus).optional(),
+  }),
+});
+
 export default listOrdersQuerySchema;
+

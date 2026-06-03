@@ -52,6 +52,7 @@ model Restaurant {
   menuCategories   MenuCategory[]
   menuItems        MenuItem[]
   hours            RestaurantHours[]
+  carts            Cart[]
 
   @@map("restaurants")
 }
@@ -66,6 +67,7 @@ model Order {
   createdAt     DateTime      @default(now()) @map("created_at")
 
   restaurant    Restaurant    @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
 
   @@map("orders")
 }
@@ -111,6 +113,8 @@ model MenuItem {
 
   restaurant      Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   category        MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  orderItems      OrderItem[]
+  cartItems       CartItem[]
 
   @@map("menu_items")
 }
@@ -129,4 +133,43 @@ model RestaurantHours {
 
   @@unique([restaurantId, dayOfWeek])
   @@map("restaurant_hours")
+}
+
+model OrderItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  orderId        String   @db.Uuid @map("order_id")
+  menuItemId     String   @db.Uuid @map("menu_item_id")
+  quantity       Int
+  price          Decimal  @db.Decimal(10, 2)
+  customizations String?
+
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem       MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+model Cart {
+  id           String     @id @default(uuid()) @db.Uuid
+  restaurantId String     @db.Uuid @map("restaurant_id")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  items        CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  cartId         String   @db.Uuid @map("cart_id")
+  menuItemId     String   @db.Uuid @map("menu_item_id")
+  quantity       Int
+  customizations String?
+
+  cart           Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  menuItem       MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@map("cart_items")
 }

@@ -40,5 +40,43 @@ export class OrderController {
       next(error);
     }
   }
+
+  static async createOrder(req: Request, res: Response, next: NextFunction) {
+    try {
+      const restaurantId = req.restaurant!.id;
+      const { customerName, cartId } = req.body;
+      const order = await OrderService.createOrder(restaurantId, customerName, cartId);
+      sendResponse({
+        res,
+        statusCode: 201,
+        message: 'Order placed successfully',
+        data: order,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateOrder(req: Request, res: Response, next: NextFunction) {
+    try {
+      const restaurantId = req.restaurant!.id;
+      const { id } = req.params;
+      const { orderStatus, paymentStatus } = req.body;
+      const order = await OrderService.updateOrderStatusAndPayment(
+        restaurantId,
+        id,
+        orderStatus,
+        paymentStatus
+      );
+      sendResponse({
+        res,
+        message: 'Order updated successfully',
+        data: order,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 export default OrderController;
+

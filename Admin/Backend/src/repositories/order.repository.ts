@@ -38,6 +38,13 @@ export class OrderRepository {
     const [orders, count] = await Promise.all([
       prisma.order.findMany({
         where,
+        include: {
+          items: {
+            include: {
+              menuItem: true,
+            },
+          },
+        },
         skip: filters.skip,
         take: filters.take,
         orderBy: { createdAt: 'desc' },
@@ -45,14 +52,85 @@ export class OrderRepository {
       prisma.order.count({ where }),
     ]);
 
-    return [orders, count];
+    return [orders as any, count];
   }
 
-  static async findById(restaurantId: string, id: string): Promise<Order | null> {
+  static async findById(restaurantId: string, id: string): Promise<any | null> {
     return prisma.order.findFirst({
       where: { id, restaurantId },
+      include: {
+        items: {
+          include: {
+            menuItem: true,
+          },
+        },
+      },
     });
   }
+
+  static async createOrder(
+    restaurantId: string,
+    customerName: string,
+    totalAmount: number,
+    cartItems: { menuItemId: string; quantity: number; price: number; customizations?: string | null }[],
+    cartId: string
+  ) {
+    return prisma.$transaction(async (tx) => {
+      const order = await tx.order.create({
+        data: {
+          restaurantId,
+          customerName,
+          totalAmount,
+          orderStatus: 'PENDING',
+          paymentStatus: 'PENDING',
+        },
+      });
+
+      await tx.orderItem.createMany({
+        data: cartItems.map((item) => ({
+          orderId: order.id,
+          menuItemId: item.menuItemId,
+          quantity: item.quantity,
+          price: item.price,
+          customizations: item.customizations || null,
+        })),
+      });
+
+      await tx.cart.delete({
+        where: { id: cartId },
+      });
+
+      return tx.order.findUnique({
+        where: { id: order.id },
+        include: {
+          items: {
+            include: {
+              menuItem: true,
+            },
+          },
+        },
+      });
+    });
+  }
+
+  static async updateOrder(
+    restaurantId: string,
+    id: string,
+    data: { orderStatus?: OrderStatus; paymentStatus?: PaymentStatus }
+  ) {
+    return prisma.order.update({
+      where: { id, restaurantId },
+      data,
+      include: {
+        items: {
+          include: {
+            menuItem: true,
+          },
+        },
+      },
+    });
+  }
+
 
   static async aggregateStats(restaurantId: string) {
     const startOfToday = new Date();

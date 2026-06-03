@@ -1,0 +1,97 @@
+# ============================================================
+# Sorello Demo - Root .gitignore
+# Covers: SuperAdmin, Admin, Pos frontends & backends + Prisma
+# ============================================================
+
+# ----- Dependencies -----
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ----- Build Outputs -----
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+
+# ----- Environment Variables -----
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# ----- Prisma Generated Client -----
+**/node_modules/.prisma/
+**/.prisma/
+# Keep schema and migrations, ignore generated client files
+**/prisma/generated/
+
+# ----- Logs -----
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ----- Runtime / OS -----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ----- IDE & Editor -----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ----- TypeScript -----
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ----- Testing -----
+coverage/
+**/coverage/
+.nyc_output/
+
+# ----- Vite / React -----
+.vite/
+**/.vite/
+
+# ----- Next.js (if added later) -----
+.next/
+**/.next/
+
+# ----- Temporary / Scratch files -----
+scratch/
+**/scratch/
+*.tmp
+*.temp
+query_subway.js
+**/seed_categories.js
+
+# ----- Package lock (keep one, ignore conflicts) -----
+# Uncomment below if you want to ignore lock files
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ----- Native addons / binaries -----
+*.dylib.node
+*.node

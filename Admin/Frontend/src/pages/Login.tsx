@@ -68,7 +68,7 @@ export const Login: React.FC = () => {
       const token = loginRes.data.token;
 
       // 2. Change password using the authenticated token
-      await fetch('http://localhost:5002/api/restaurant-auth/change-password', {
+      await fetch('http://localhost:5003/api/restaurant-auth/change-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

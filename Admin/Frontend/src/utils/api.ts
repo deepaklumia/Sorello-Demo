@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5002/api';
+const BASE_URL = 'http://localhost:5003/api';
 
 export class FetchError extends Error {
   public status: number;
