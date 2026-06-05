@@ -13,13 +13,16 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className="w-[260px] bg-white border-r border-space-border flex flex-col justify-between shrink-0 h-screen">
       {/* Brand Header */}
-      <div className="p-6 text-left">
-        <h1 className="text-xl font-extrabold font-heading text-gray-900 tracking-tight">
-          Sorella POS
-        </h1>
-        <p className="text-[11px] text-space-muted font-bold tracking-wider uppercase mt-1">
-          Terminal #01
-        </p>
+      <div className="p-6 text-left flex items-center gap-3">
+        <img src="/logo.png" alt="Sorello Logo" className="w-9 h-9 object-contain" />
+        <div>
+          <h1 className="text-lg font-extrabold font-heading text-gray-900 tracking-tight">
+            Sorella POS
+          </h1>
+          <p className="text-[11px] text-space-muted font-bold tracking-wider uppercase">
+            Terminal #01
+          </p>
+        </div>
       </div>
 
       {/* Navigation Stack */}

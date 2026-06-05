@@ -29,7 +29,7 @@ export const LoginPage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          slug: 'family-rest',
+          slug: 'rest-hub',
           email: username.trim(),
           password: password,
         }),
@@ -57,8 +57,11 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen bg-[#F0F5FD] flex flex-col justify-between select-none font-sans">
       {/* Top Header */}
       <header className="w-full px-8 py-5 flex justify-between items-center bg-[#F0F5FD]">
-        <div className="text-xl font-black text-[#0B56D6] tracking-tight">
-          Sorella
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="Sorello Logo" className="w-8 h-8 object-contain" />
+          <div className="text-xl font-black text-[#0B56D6] tracking-tight">
+            Sorella
+          </div>
         </div>
         <button
           onClick={() => alert('Support portal is offline. Please contact terminal administrator.')}
@@ -71,29 +74,9 @@ export const LoginPage: React.FC = () => {
       {/* Main Login Panel */}
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-[420px] bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_10px_40px_-10px_rgba(11,86,214,0.12)]">
-          {/* Cash Register Icon */}
+          {/* Logo */}
           <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 rounded-xl bg-[#0B56D6] flex items-center justify-center shadow-lg shadow-[#0B56D6]/20">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-6 h-6 text-white"
-              >
-                <path d="M4 19h16" />
-                <path d="M4 15h16" />
-                <rect x="6" y="3" width="12" height="8" rx="2" />
-                <path d="M10 7h4" />
-                <path d="M8 15v4" />
-                <path d="M12 15v4" />
-                <path d="M16 15v4" />
-                <path d="M5 11h14l1 4H4z" />
-              </svg>
-            </div>
+            <img src="/logo.png" alt="Sorello Logo" className="w-16 h-16 object-contain" />
           </div>
 
           {/* Heading */}

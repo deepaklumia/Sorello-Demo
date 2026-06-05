@@ -4,7 +4,7 @@ const API_BASE_URL = 'http://localhost:5003/api';
 
 export const apiFetch = async (path: string, options: RequestInit = {}) => {
   const token = useAuthStore.getState().token;
-  
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {}),

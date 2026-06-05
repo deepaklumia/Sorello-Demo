@@ -108,9 +108,7 @@ export const Login: React.FC = () => {
         
         {/* Brand header */}
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-space-surface border border-space-border flex items-center justify-center text-accent-cyan shadow-inner mb-4">
-            <Shield className="w-7 h-7 text-accent-cyan" />
-          </div>
+          <img src="/logo.png" alt="Sorello Logo" className="w-16 h-16 object-contain mb-4" />
           <h1 className="text-2xl font-extrabold font-heading text-white tracking-tight">
             {displayName}
           </h1>

@@ -41,9 +41,7 @@ export const Login: React.FC = () => {
       <div className="glass-card rounded-2xl p-10 w-full max-w-[420px] z-10 relative shadow-2xl">
         {/* Logo/Icon */}
         <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-14 h-14 rounded-xl bg-[#0B0F19] border border-space-border flex items-center justify-center text-accent-cyan shadow-inner mb-4">
-            <Shield className="w-7 h-7" />
-          </div>
+          <img src="/logo.png" alt="Sorello Logo" className="w-16 h-16 object-contain mb-4" />
           <h2 className="text-2xl font-bold font-heading text-white tracking-tight">Sorello Admin</h2>
           <p className="text-[11px] text-space-muted font-bold mt-1.5 uppercase tracking-wider">Command Center Access</p>
         </div>

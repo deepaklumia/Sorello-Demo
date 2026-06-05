@@ -45,13 +45,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       {/* 1. Sidebar - Desktop */}
       <aside className="hidden lg:flex flex-col w-[260px] bg-[#0C101B] border-r border-space-border/60 shrink-0 sticky top-0 h-screen z-20">
         {/* Header Logo */}
-        <div className="h-[76px] flex flex-col justify-center px-6 border-b border-space-border/30">
-          <h1 className="text-base font-extrabold font-heading text-white tracking-wide truncate">
-            {restaurant?.name || 'Restaurant'}
-          </h1>
-          <p className="text-[9px] text-space-muted font-bold tracking-widest uppercase mt-0.5">
-            Admin Console
-          </p>
+        <div className="h-[76px] flex items-center gap-3 px-6 border-b border-space-border/30">
+          <img src="/logo.png" alt="Sorello Logo" className="w-8 h-8 object-contain shrink-0" />
+          <div className="overflow-hidden">
+            <h1 className="text-sm font-extrabold font-heading text-white tracking-wide truncate">
+              {restaurant?.name || 'Restaurant'}
+            </h1>
+            <p className="text-[9px] text-space-muted font-bold tracking-widest uppercase">
+              Admin Console
+            </p>
+          </div>
         </div>
 
         {/* Navigation list */}
@@ -198,13 +201,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           ></div>
           <aside className="fixed top-0 left-0 bottom-0 w-[260px] bg-[#0C101B] border-r border-space-border/60 flex flex-col z-40 lg:hidden animate-slide-right">
             <div className="h-[76px] flex justify-between items-center px-6 border-b border-space-border/30">
-              <div>
-                <h1 className="text-sm font-extrabold text-white truncate max-w-[150px]">
-                  {restaurant?.name || 'Restaurant'}
-                </h1>
-                <p className="text-[8px] text-space-muted font-bold tracking-widest uppercase mt-0.5">
-                  Admin Console
-                </p>
+              <div className="flex items-center gap-3 overflow-hidden">
+                <img src="/logo.png" alt="Sorello Logo" className="w-8 h-8 object-contain shrink-0" />
+                <div className="overflow-hidden">
+                  <h1 className="text-sm font-extrabold text-white truncate max-w-[120px]">
+                    {restaurant?.name || 'Restaurant'}
+                  </h1>
+                  <p className="text-[8px] text-space-muted font-bold tracking-widest uppercase">
+                    Admin Console
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}

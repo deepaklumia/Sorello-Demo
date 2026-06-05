@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = (newToken: string, newRestaurant: RestaurantProfile, keepSession: boolean) => {
     setToken(newToken);
     setRestaurant(newRestaurant);
-    
+
     const storage = keepSession ? localStorage : sessionStorage;
     storage.setItem('restaurant_token', newToken);
     storage.setItem('restaurant_user', JSON.stringify(newRestaurant));
@@ -74,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (restaurant) {
       const merged = { ...restaurant, ...updated };
       setRestaurant(merged);
-      
+
       const storage = localStorage.getItem('restaurant_token') ? localStorage : sessionStorage;
       storage.setItem('restaurant_user', JSON.stringify(merged));
     }
@@ -83,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setToken(null);
     setRestaurant(null);
-    
+
     const slug = localStorage.getItem('restaurant_slug') || sessionStorage.getItem('restaurant_slug') || 'burger-palace';
 
     localStorage.removeItem('restaurant_token');

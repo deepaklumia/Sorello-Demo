@@ -50,9 +50,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
         <div>
           {/* Logo Brand */}
           <div className="h-[80px] px-6 border-b border-space-border/50 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-accent-cyan to-accent-purple flex items-center justify-center font-bold text-white shadow-lg text-sm">
-              S
-            </div>
+            <img src="/logo.png" alt="Sorello Logo" className="w-8 h-8 object-contain" />
             <div>
               <h1 className="text-sm font-bold font-heading text-white tracking-tight">Sorello POS</h1>
               <p className="text-[10px] text-space-muted font-bold tracking-wider">Enterprise Admin</p>

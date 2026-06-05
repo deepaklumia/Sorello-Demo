@@ -40,13 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
-  const login = (newToken: string, newUser: User, _keepSession: boolean) => {
+  const login = (newToken: string, newUser: User, keepSession: boolean) => {
     setToken(newToken);
     setUser(newUser);
-    localStorage.setItem('sorello_token', newToken);
-    localStorage.setItem('sorello_user', JSON.stringify(newUser));
-    sessionStorage.setItem('sorello_token', newToken);
-    sessionStorage.setItem('sorello_user', JSON.stringify(newUser));
+    const storage = keepSession ? localStorage : sessionStorage;
+    storage.setItem('sorello_token', newToken);
+    storage.setItem('sorello_user', JSON.stringify(newUser));
   };
 
   const logout = () => {
