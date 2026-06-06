@@ -29,6 +29,7 @@ export const OrdersPage: React.FC = () => {
 
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card'>('card');
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   // Filter out completed orders for the KDS grid (keep pending, ready, overdue)
   const activeOrders = orders.filter(o => o.status !== 'completed');
@@ -50,6 +51,7 @@ export const OrdersPage: React.FC = () => {
     setTimeout(() => {
       completeOrder(id, paymentMethod);
       setSuccessOrderId(null);
+      setIsDetailsOpen(false);
     }, 1200);
   };
 
@@ -83,9 +85,9 @@ export const OrdersPage: React.FC = () => {
       
       <div className="flex-1 flex overflow-hidden">
         {/* Left Section: Active Orders Grid */}
-        <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 p-4 lg:p-6 overflow-y-auto pb-24 lg:pb-6">
           {activeOrders.length > 0 ? (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
               <AnimatePresence mode="popLayout">
                 {activeOrders.map((order) => {
                   const isSelected = selectedOrderId === order.id;
@@ -97,7 +99,10 @@ export const OrdersPage: React.FC = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       whileHover={{ scale: 1.015, boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.05)' }}
-                      onClick={() => setSelectedOrderId(order.id)}
+                      onClick={() => {
+                        setSelectedOrderId(order.id);
+                        setIsDetailsOpen(true);
+                      }}
                       className={`p-5 bg-white border rounded-2xl cursor-pointer transition-all duration-200 flex flex-col justify-between min-h-[140px] text-left relative ${
                         isSelected 
                           ? 'border-primary shadow-lg ring-1 ring-primary/40' 
@@ -152,8 +157,16 @@ export const OrdersPage: React.FC = () => {
           )}
         </div>
 
+        {/* Mobile Details Backdrop */}
+        {isDetailsOpen && selectedOrder && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+            onClick={() => setIsDetailsOpen(false)}
+          />
+        )}
+
         {/* Right Section: Order Details Panel */}
-        <div className="w-[380px] bg-white border-l border-space-border flex flex-col justify-between shrink-0 h-full relative z-10 shadow-2xl shadow-black/5">
+        <div className={`fixed lg:relative inset-y-0 right-0 w-[380px] bg-white border-l border-space-border flex flex-col justify-between shrink-0 h-full z-40 shadow-2xl transition-transform duration-300 lg:translate-x-0 lg:shadow-none lg:flex ${isDetailsOpen && selectedOrder ? 'translate-x-0' : 'translate-x-full lg:flex'}`}>
           {selectedOrder ? (
             <div className="flex flex-col h-full justify-between">
               
@@ -170,6 +183,13 @@ export const OrdersPage: React.FC = () => {
                         Customer: {selectedOrder.customerName}
                       </p>
                     </div>
+                    {/* Mobile Close Button */}
+                    <button
+                      onClick={() => setIsDetailsOpen(false)}
+                      className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
                   </div>
                   
                   <div className="border-b border-space-border pb-2"></div>
@@ -268,7 +288,10 @@ export const OrdersPage: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <button
-                        onClick={() => declineOrder(selectedOrder.id)}
+                        onClick={() => {
+                          declineOrder(selectedOrder.id);
+                          setIsDetailsOpen(false);
+                        }}
                         className="py-3.5 rounded-xl border border-red-200 hover:border-red-500 hover:bg-red-50 text-red-500 font-extrabold text-xs flex items-center justify-center gap-2 transition-all bg-white"
                       >
                         <X className="w-4 h-4" />

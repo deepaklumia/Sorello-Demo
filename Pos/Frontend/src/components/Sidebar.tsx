@@ -11,7 +11,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-[260px] bg-white border-r border-space-border flex flex-col justify-between shrink-0 h-screen">
+    <aside className="hidden lg:flex w-[260px] bg-white border-r border-space-border flex-col justify-between shrink-0 h-screen">
       {/* Brand Header */}
       <div className="p-6 text-left flex items-center gap-3">
         <img src="/logo.png" alt="Sorello Logo" className="w-9 h-9 object-contain" />

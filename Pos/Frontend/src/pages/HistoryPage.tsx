@@ -18,7 +18,7 @@ export const HistoryPage: React.FC = () => {
     <div className="flex-1 flex flex-col min-w-0 h-screen select-none bg-space-bg text-left">
       <Header title="Order History Logs" />
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 lg:p-8 overflow-y-auto pb-24 lg:pb-8">
         <div className="max-w-5xl mx-auto space-y-6">
           <div className="flex justify-between items-center pb-2 border-b border-space-border">
             <h3 className="text-base font-extrabold text-gray-900 font-heading">

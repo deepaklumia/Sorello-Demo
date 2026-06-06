@@ -1,13 +1,13 @@
 import React from 'react';
 import { Header } from '../components/Header';
-import { Monitor, Cpu } from 'lucide-react';
+import { Monitor, Cpu, Shield } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col min-w-0 h-screen select-none bg-space-bg text-left">
       <Header title="Terminal Settings" />
 
-      <div className="flex-1 p-8 overflow-y-auto">
+      <div className="flex-1 p-4 lg:p-8 overflow-y-auto pb-24 lg:pb-8">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="pb-2 border-b border-space-border">
             <h3 className="text-base font-extrabold text-gray-900 font-heading">
@@ -69,6 +69,20 @@ export const SettingsPage: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Mobile Admin Mode Button */}
+          <div className="lg:hidden mt-6 bg-white border border-space-border rounded-2xl p-6 flex flex-col items-center">
+            <p className="text-xs text-space-muted mb-4 font-semibold text-center">
+              Administrative settings require manager key access.
+            </p>
+            <button 
+              onClick={() => alert('Access locked. Enter manager terminal key.')}
+              className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-space-border hover:border-gray-900 hover:bg-gray-50 text-xs font-bold text-gray-600 hover:text-gray-900 transition-all uppercase tracking-wider bg-white"
+            >
+              <Shield className="w-4 h-4 text-gray-400" />
+              Admin Mode
+            </button>
           </div>
         </div>
       </div>

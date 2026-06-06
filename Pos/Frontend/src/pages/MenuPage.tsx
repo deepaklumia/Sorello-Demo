@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOrderStore } from '../store/orderStore';
 import { Header } from '../components/Header';
-import { Search, Plus, Minus, Check, ShoppingCart } from 'lucide-react';
+import { Search, Plus, Minus, Check, ShoppingCart, X } from 'lucide-react';
 
 export const MenuPage: React.FC = () => {
   const { 
@@ -29,6 +29,7 @@ export const MenuPage: React.FC = () => {
   const [successPlaced, setSuccessPlaced] = useState(false);
   const [customizationInput, setCustomizationInput] = useState<string>('');
   const [customizingItem, setCustomizingItem] = useState<string | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Filter menu items
   const filteredMenu = menuItems.filter(item => {
@@ -51,6 +52,7 @@ export const MenuPage: React.FC = () => {
       placeOrder(customerName.trim() || 'Walk-in Customer');
       setCustomerName('');
       setSuccessPlaced(false);
+      setIsCartOpen(false);
     }, 1200);
   };
 
@@ -66,7 +68,7 @@ export const MenuPage: React.FC = () => {
 
       <div className="flex-1 flex overflow-hidden">
         {/* Left Section: Menu Catalog & Categories */}
-        <div className="flex-1 p-6 flex flex-col space-y-5 overflow-y-auto">
+        <div className="flex-1 p-4 lg:p-6 flex flex-col space-y-4 lg:space-y-5 overflow-y-auto pb-24 lg:pb-6">
           {/* Top Search & Filter row */}
           <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
             {/* Search Input */}
@@ -103,7 +105,7 @@ export const MenuPage: React.FC = () => {
           </div>
 
           {/* Dishes Catalog Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
             {filteredMenu.map((item) => (
               <div
                 key={item.id}
@@ -197,18 +199,35 @@ export const MenuPage: React.FC = () => {
           )}
         </div>
 
+        {/* Mobile Cart Backdrop */}
+        {isCartOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+            onClick={() => setIsCartOpen(false)}
+          />
+        )}
+
         {/* Right Section: Current Order Cart */}
-        <div className="w-[380px] bg-white border-l border-space-border flex flex-col justify-between shrink-0 h-full relative z-10 shadow-2xl shadow-black/5">
+        <div className={`fixed lg:relative inset-y-0 right-0 w-[380px] bg-white border-l border-space-border flex flex-col justify-between shrink-0 h-full z-40 shadow-2xl transition-transform duration-300 lg:translate-x-0 lg:shadow-none lg:flex ${isCartOpen ? 'translate-x-0' : 'translate-x-full lg:flex'}`}>
           <div className="flex flex-col h-full justify-between">
             {/* Cart Header */}
             <div className="p-6 border-b border-space-border text-left">
               <div className="flex justify-between items-center">
-                <h3 className="text-base font-extrabold text-gray-950 font-heading">
-                  Current Order
-                </h3>
-                <span className="text-[10px] bg-blue-50 text-primary border border-blue-100 px-2 py-0.5 rounded font-extrabold uppercase select-none">
-                  #New
-                </span>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-extrabold text-gray-950 font-heading">
+                    Current Order
+                  </h3>
+                  <span className="text-[10px] bg-blue-50 text-primary border border-blue-100 px-2 py-0.5 rounded font-extrabold uppercase select-none">
+                    #New
+                  </span>
+                </div>
+                {/* Mobile Close Button */}
+                <button
+                  onClick={() => setIsCartOpen(false)}
+                  className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
               <input
                 type="text"
@@ -326,7 +345,10 @@ export const MenuPage: React.FC = () => {
                   </button>
                   <button
                     disabled={cart.length === 0}
-                    onClick={clearCart}
+                    onClick={() => {
+                      clearCart();
+                      setIsCartOpen(false);
+                    }}
                     className="py-3 border border-red-200 hover:border-red-500 hover:bg-red-50 rounded-xl text-xs font-extrabold text-red-500 text-center bg-white transition-all disabled:opacity-40"
                   >
                     Cancel
@@ -338,6 +360,21 @@ export const MenuPage: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Floating Mobile Cart Banner */}
+      {cart.length > 0 && (
+        <div className="lg:hidden fixed bottom-20 left-4 right-4 z-20">
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="w-full bg-primary hover:bg-primary-dark text-white py-3.5 px-6 rounded-xl font-extrabold text-sm shadow-xl flex justify-between items-center transition-all animate-bounce-subtle"
+          >
+            <div className="flex items-center gap-2">
+              <ShoppingCart className="w-5 h-5" />
+              <span>View Order ({cart.reduce((acc, c) => acc + c.quantity, 0)})</span>
+            </div>
+            <span>${total.toFixed(2)}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

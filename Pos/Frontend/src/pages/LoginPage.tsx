@@ -56,7 +56,7 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F0F5FD] flex flex-col justify-between select-none font-sans">
       {/* Top Header */}
-      <header className="w-full px-8 py-5 flex justify-between items-center bg-[#F0F5FD]">
+      <header className="w-full px-4 md:px-8 py-4 md:py-5 flex justify-between items-center bg-[#F0F5FD]">
         <div className="flex items-center gap-2">
           <img src="/logo.png" alt="Sorello Logo" className="w-8 h-8 object-contain" />
           <div className="text-xl font-black text-[#0B56D6] tracking-tight">
@@ -181,7 +181,7 @@ export const LoginPage: React.FC = () => {
       </main>
 
       {/* Bottom Footer */}
-      <footer className="w-full px-8 py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] font-bold text-gray-400 border-t border-gray-200/50 bg-[#F0F5FD]">
+      <footer className="w-full px-4 md:px-8 py-4 md:py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] font-bold text-gray-400 border-t border-gray-200/50 bg-[#F0F5FD]">
         <div>
           &copy; 2026 Sorella POS Systems. All rights reserved.
         </div>
