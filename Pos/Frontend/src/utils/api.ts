@@ -23,6 +23,9 @@ export const apiFetch = async (path: string, options: RequestInit = {}) => {
   const data = await response.json();
 
   if (!response.ok || !data.success) {
+    if (response.status === 401) {
+      useAuthStore.getState().logout();
+    }
     throw new Error(data.message || 'Request failed');
   }
 

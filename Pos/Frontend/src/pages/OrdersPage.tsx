@@ -170,27 +170,6 @@ export const OrdersPage: React.FC = () => {
                         Customer: {selectedOrder.customerName}
                       </p>
                     </div>
-
-                    {/* Pending action buttons in header */}
-                    {selectedOrder.status !== 'ready' && (
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => declineOrder(selectedOrder.id)}
-                          className="w-10 h-10 rounded-xl border border-red-200 hover:border-red-500 hover:bg-red-50 text-red-500 flex items-center justify-center transition-all"
-                          title="Decline Order"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                        
-                        <button
-                          onClick={() => acceptOrder(selectedOrder.id)}
-                          className="px-4 py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-md shadow-green-600/10"
-                        >
-                          <Check className="w-4 h-4" />
-                          Accept
-                        </button>
-                      </div>
-                    )}
                   </div>
                   
                   <div className="border-b border-space-border pb-2"></div>
@@ -281,10 +260,28 @@ export const OrdersPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Locked State if pending */}
+                {/* Action buttons if pending */}
                 {selectedOrder.status !== 'ready' && (
-                  <div className="p-3 bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-bold rounded-lg text-center uppercase tracking-wider">
-                    🔒 Accept Order to Enable Payment processing
+                  <div className="space-y-3">
+                    <div className="p-3 bg-blue-50 border border-blue-100 text-blue-600 text-[10px] font-bold rounded-lg text-center uppercase tracking-wider">
+                      🔒 Accept Order to Enable Payment processing
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => declineOrder(selectedOrder.id)}
+                        className="py-3.5 rounded-xl border border-red-200 hover:border-red-500 hover:bg-red-50 text-red-500 font-extrabold text-xs flex items-center justify-center gap-2 transition-all bg-white"
+                      >
+                        <X className="w-4 h-4" />
+                        Decline
+                      </button>
+                      <button
+                        onClick={() => acceptOrder(selectedOrder.id)}
+                        className="py-3.5 bg-green-600 hover:bg-green-500 text-white rounded-xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-green-600/10"
+                      >
+                        <Check className="w-4 h-4" />
+                        Accept Order
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
