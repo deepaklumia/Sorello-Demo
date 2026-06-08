@@ -29,7 +29,7 @@ export const LoginPage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          slug: 'rest-hub',
+          slug: 'burger-buzz',
           email: username.trim(),
           password: password,
         }),

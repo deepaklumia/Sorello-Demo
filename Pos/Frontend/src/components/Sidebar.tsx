@@ -1,8 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { ShoppingCart, Utensils, History, Settings, Shield } from 'lucide-react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { ShoppingCart, Utensils, History, Settings, Shield, LogOut } from 'lucide-react';
+import { useAuthStore } from '../store/authStore';
 
 export const Sidebar: React.FC = () => {
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   const menuItems = [
     { label: 'Order', path: '/orders', icon: ShoppingCart },
     { label: 'Menu', path: '/menu', icon: Utensils },
@@ -48,14 +57,22 @@ export const Sidebar: React.FC = () => {
         })}
       </nav>
 
-      {/* Admin Button Footer */}
-      <div className="p-4 border-t border-space-border">
+      {/* Admin & Logout Button Footer */}
+      <div className="p-4 border-t border-space-border space-y-2">
         <button 
           onClick={() => alert('Access locked. Enter manager terminal key.')}
           className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-space-border hover:border-gray-900 hover:bg-gray-50 text-xs font-bold text-gray-600 hover:text-gray-900 transition-all uppercase tracking-wider"
         >
           <Shield className="w-4 h-4 text-gray-400" />
           Admin Mode
+        </button>
+
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-transparent hover:border-rose-200 hover:bg-rose-50 text-xs font-bold text-gray-500 hover:text-rose-600 transition-all uppercase tracking-wider cursor-pointer"
+        >
+          <LogOut className="w-4 h-4 text-gray-400" />
+          Sign Out
         </button>
       </div>
     </aside>

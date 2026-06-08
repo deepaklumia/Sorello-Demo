@@ -52,6 +52,15 @@ export class OrderService {
               name: true,
             },
           },
+          items: {
+            include: {
+              menuItem: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       }),
       prisma.order.count({ where }),
@@ -73,6 +82,17 @@ export class OrderService {
             email: true,
             phone: true,
             address: true,
+          },
+        },
+        items: {
+          include: {
+            menuItem: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+              },
+            },
           },
         },
       },

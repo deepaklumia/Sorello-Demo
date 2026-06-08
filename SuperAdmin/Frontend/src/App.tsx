@@ -5,6 +5,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Dashboard } from './pages/Dashboard';
 import { Restaurants } from './pages/Restaurants';
+import { Orders } from './pages/Orders';
 import { DashboardLayout } from './layouts/DashboardLayout';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -59,12 +60,7 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <DashboardLayout>
-              <div className="glass-card rounded-xl p-8 text-center max-w-md mx-auto my-20 space-y-4">
-                <h3 className="text-lg font-bold font-heading text-white">Order Auditing Dashboard</h3>
-                <p className="text-xs text-space-muted leading-relaxed">
-                  The transaction logging module is active. You can browse platform orders and monitor invoices from the Dashboard metrics. Full order search logs are available in the terminal database query console.
-                </p>
-              </div>
+              <Orders />
             </DashboardLayout>
           </ProtectedRoute>
         }

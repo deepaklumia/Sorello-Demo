@@ -40,6 +40,9 @@ export const MenuManagement: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [newCatName, setNewCatName] = useState('');
+  const [newCatDesc, setNewCatDesc] = useState('');
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [editCatName, setEditCatName] = useState('');
 
@@ -106,15 +109,23 @@ export const MenuManagement: React.FC = () => {
     if (!newCatName.trim()) return;
 
     try {
-      const res = await api.post('/restaurant/menu/categories', { name: newCatName.trim() });
+      setCategoryLoading(true);
+      const res = await api.post('/restaurant/menu/categories', {
+        name: newCatName.trim(),
+        description: newCatDesc.trim() || undefined
+      });
       const addedCat = res.data;
       setCategories([...categories, addedCat]);
       setNewCatName('');
+      setNewCatDesc('');
+      setShowCategoryModal(false);
       if (!activeCategoryId) {
         setActiveCategoryId(addedCat.id);
       }
     } catch (err: any) {
       alert(err.message || 'Failed to add category');
+    } finally {
+      setCategoryLoading(false);
     }
   };
 
@@ -299,28 +310,14 @@ export const MenuManagement: React.FC = () => {
         <div className="lg:col-span-4 glass-card rounded-xl p-5 border border-space-border/60 space-y-4">
           <div className="flex justify-between items-center pb-2 border-b border-space-border/30">
             <h3 className="text-xs font-extrabold uppercase tracking-widest text-white">Categories</h3>
-            <span className="text-[10px] bg-space-surface px-2 py-0.5 rounded font-extrabold text-space-muted">
-              {categories.length} Total
-            </span>
-          </div>
-
-          {/* Add Category Form */}
-          <form onSubmit={handleAddCategory} className="flex gap-2">
-            <input
-              type="text"
-              placeholder="e.g. Starters"
-              value={newCatName}
-              onChange={(e) => setNewCatName(e.target.value)}
-              className="flex-1 bg-[#090D18] border border-space-border rounded-lg px-3 py-2 text-xs text-white placeholder-space-muted/50 focus:border-accent-cyan focus:outline-none"
-            />
             <button
-              type="submit"
-              className="bg-space-surface border border-space-border hover:border-accent-cyan p-2.5 rounded-lg text-accent-cyan transition-all"
-              title="Add Category"
+              onClick={() => setShowCategoryModal(true)}
+              className="px-2.5 py-1 bg-[#151B2C] border border-space-border/80 hover:border-accent-cyan hover:text-accent-cyan rounded text-[10px] font-bold text-space-muted transition-all flex items-center gap-1"
             >
-              <FolderPlus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
+              Add Category
             </button>
-          </form>
+          </div>
 
           {/* Categories Nav stack */}
           <div className="space-y-1 max-h-[400px] overflow-y-auto pr-1">
@@ -644,6 +641,65 @@ export const MenuManagement: React.FC = () => {
                 className="w-full bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-bold py-3 px-4 rounded-lg text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(0,240,255,0.15)] disabled:opacity-50 mt-2"
               >
                 {itemLoading ? 'Saving Dish...' : editingItem ? 'Save Updates' : 'Add Item to Menu'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Category Modal Dialog (Add) */}
+      {showCategoryModal && (
+        <div className="fixed inset-0 bg-space-dark/80 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+          <div className="glass-card rounded-xl p-6 w-full max-w-[460px] shadow-2xl border border-space-border relative text-left text-white">
+            <button
+              onClick={() => setShowCategoryModal(false)}
+              className="absolute top-4 right-4 text-space-muted hover:text-white transition-colors"
+            >
+              ✕
+            </button>
+
+            <h3 className="text-base font-bold font-heading text-white mb-1 flex items-center gap-2">
+              Add New Category
+              <Sparkles className="w-4 h-4 text-accent-cyan" />
+            </h3>
+            <p className="text-xs text-space-muted mb-5 leading-relaxed">
+              Create a new menu category section for organizing dishes.
+            </p>
+
+            <form onSubmit={handleAddCategory} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] uppercase tracking-wider text-space-muted font-extrabold block">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Starters"
+                  value={newCatName}
+                  onChange={(e) => setNewCatName(e.target.value)}
+                  className="w-full bg-[#0B0F19] border border-space-border rounded-lg py-2 px-3 text-xs text-white focus:border-accent-cyan focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] uppercase tracking-wider text-space-muted font-extrabold block">
+                  Description
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Describe category (optional)..."
+                  value={newCatDesc}
+                  onChange={(e) => setNewCatDesc(e.target.value)}
+                  className="w-full bg-[#0B0F19] border border-space-border rounded-lg py-2 px-3 text-xs text-white focus:border-accent-cyan focus:outline-none resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={categoryLoading}
+                className="w-full bg-gradient-to-r from-accent-cyan to-accent-purple text-white font-bold py-3 px-4 rounded-lg text-xs tracking-wider transition-all shadow-[0_0_20px_rgba(0,240,255,0.15)] disabled:opacity-50 mt-2"
+              >
+                {categoryLoading ? 'Creating Category...' : 'Create Category'}
               </button>
             </form>
           </div>
